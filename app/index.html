@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Epic Weekend Planner</title>
+<meta name="description" content="Where is it snowing on the Epic Pass this weekend, and how do I get there from NYC?">
+<script>
+  // Same origin as shampoe.com when framed there, so this picks up the site's theme toggle.
+  try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<div class="controls">
+  <div class="field">
+    <span>Snowfall</span>
+    <div class="seg" id="metric" role="radiogroup" aria-label="Snowfall window"></div>
+  </div>
+  <label class="field">
+    <span>Region</span>
+    <select id="region"></select>
+  </label>
+  <div class="legend" aria-label="Snowfall legend">
+    <span><i class="sw b0"></i>&lt;½</span>
+    <span><i class="sw b1"></i>½–3</span>
+    <span><i class="sw b2"></i>3–6</span>
+    <span><i class="sw b3"></i>6–12</span>
+    <span><i class="sw b4"></i>12+ in</span>
+  </div>
+</div>
+<main class="layout">
+  <div id="map" aria-label="Map of Epic Pass resorts"></div>
+  <aside id="panel" aria-live="polite"></aside>
+</main>
+</body>
+</html>
