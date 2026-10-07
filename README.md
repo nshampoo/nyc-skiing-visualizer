@@ -35,4 +35,4 @@ npm install
 AWS_PROFILE=personal npx cdk deploy
 ```
 
-shampoe.com serves this stack's CloudFront at `/epicPlanning/app/` (listed under `apps` in the personal-website repo's `infra/bin/infra.ts`), and `/epicPlanning/` frames it under the site header. [docs/website-integration.md](docs/website-integration.md) has the changes that repo needs.
+shampoe.com serves this stack's CloudFront at `/epicPlanning/app/` (listed under `apps` in the personal-website repo's `infra/bin/infra.ts`), and `/epicPlanning/` frames it under the site header.
