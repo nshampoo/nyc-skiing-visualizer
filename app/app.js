@@ -11,7 +11,8 @@ const NORTH_AMERICA = ["northeast", "midatlantic", "midwest", "rockies", "west",
 const PAST_DAYS = 7;
 const FORECAST_DAYS = 16;
 const PIN_SIZES = [12, 18, 24, 30, 36]; // by bin
-const METRIC_LABELS = { next: "next 7 days", wk0: "this weekend", wk1: "next weekend", past: "last 7 days" };
+// Map snowfall windows, in button order (roughly chronological).
+const METRIC_LABELS = { past: "last 7 days", next: "next 7 days", next14: "next 14 days", wk0: "this weekend", wk1: "next weekend" };
 
 // The days you can pick for a trip, as offsets from Friday (Thu = -1 .. Mon = 3). A trip is
 // { from, to } within these, at least one night. The links use them as travel dates; the
@@ -31,7 +32,7 @@ const state = {
   weekends: upcomingFridays(2), // this weekend and next: both always inside the 16-day forecast
   friday: null, // the trip weekend the links are for
   trip: DEFAULT_TRIP, // which days of it: { from, to }
-  metric: "next", // what the map colors by: next | wk0 | wk1 (this/next weekend's snow window) | past
+  metric: "next", // what the map colors by: a METRIC_LABELS key (wk0/wk1 = this/next weekend's snow window)
   region: "na",
   selected: null,
   snow: null, // Map: resort id -> { time: [...], snow: [...], hi: [...], lo: [...] }
@@ -126,6 +127,7 @@ function weekendMetric(fri) { return `wk${state.weekends.indexOf(fri)}`; }
 function windowFor(metric) {
   if (metric === "past") return { from: 0, to: PAST_DAYS };
   if (metric === "next") return { from: PAST_DAYS, to: PAST_DAYS + 7 };
+  if (metric === "next14") return { from: PAST_DAYS, to: PAST_DAYS + 14 };
   const { snowFrom, snowTo } = tripDates(state.weekends[Number(metric.slice(2))]);
   const dates = [];
   for (let s = snowFrom; s <= snowTo; s = addDays(s, 1)) dates.push(s);
@@ -482,7 +484,7 @@ regionSel.innerHTML = [
 
 // Rebuilt on every update: the weekend buttons' dates follow the trip days.
 function syncControls() {
-  metricSeg.innerHTML = ["next", "wk0", "wk1", "past"].map((m) => {
+  metricSeg.innerHTML = Object.keys(METRIC_LABELS).map((m) => {
     const i = m.startsWith("wk") ? Number(m[2]) : -1;
     if (i < 0) return `<button type="button" role="radio" data-metric="${m}">${METRIC_LABELS[m].replace(/^./, (c) => c.toUpperCase())}</button>`;
     const { snowFrom, snowTo } = tripDates(state.weekends[i]);

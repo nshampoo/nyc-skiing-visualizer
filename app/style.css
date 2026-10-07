@@ -88,9 +88,11 @@ select { padding-right: 28px; }
   #panel { width: 100%; border-left: 0; border-top: 1px solid var(--rule); }
   .legend { margin-left: 0; height: auto; }
   .seg button { padding: 6px 8px; font-size: 13px; }
-  /* Four snowfall options don't fit one row on a phone: 2x2, dates moved to the trip toggle. */
-  #metric { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
-  #metric button { margin: 0; border-radius: 8px; }
+  /* Five snowfall options don't fit one row on a phone: day counts on top, weekends below,
+     dates moved to the trip toggle. */
+  #metric { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; width: 100%; }
+  #metric button { margin: 0; border-radius: 8px; grid-column: span 2; }
+  #metric button[data-metric^="wk"] { grid-column: span 3; }
   #metric small { display: none; }
   .field { max-width: 100%; }
   .stat b { font-size: 17px; }
